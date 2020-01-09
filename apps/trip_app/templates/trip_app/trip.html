@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Trip</title>
+    {% load static %}
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="{% static 'trip_app/style/index2.css' %}">
+</head>
+<body>
+    <div class="container">
+        <div class="row top">
+            <div class="col-7">
+                <h3>Trip Buddy</h3>
+            </div>
+            <div class="col-3">
+                <h3>Welcome {{user.first_name}}</h3>
+            </div>
+            <div class="col-1">
+                <form action="/clear" method='POST'>
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <input type="submit" class="btn btn-primary btn-sm" value='Logout'>
+                    </div>
+                </form>
+            </div>
+            <div class="col-1">
+                <form action="/main" method="POST">
+                    {% csrf_token %}
+                    <input type="submit" class="btn btn-primary btn-sm" value='Back'>
+                </form>
+            </div>
+        </div>
+
+        <div class="subcontainer">
+            <div class="row">
+                    
+                <div class="col">
+                    <ul>
+                        <li>Destination: {{trip.destination}}</li>
+                        <li>Start Date: {{trip.start_date}}</li>
+                        <li>End Date: {{trip.end_date}}</li>
+                        <li>Created On: {{ trip.created_at }}</li>
+                        <li>Last Updated: {{ trip.updated_at }}</li>
+                        <li>Plan: {{ trip.plan }}</li>
+                        <li>Created by: {{ trip.uploaded_by.first_name }}</li>
+                    </ul>
+                </div>
+            </div>
+            
+        </div>
+
+
+
+    </div>
+</body>
+</html>

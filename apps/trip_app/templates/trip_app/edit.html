@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Edit trip</title>
+    {% load static %}
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="{% static 'trip_app/style/index2.css' %}">
+</head>
+<body>
+    <div class="container">
+            <div class="row top">
+                <div class="col-7">
+                    <h3>Trip Buddy</h3>
+                </div>
+                <div class="col-3">
+                    <h3>Welcome {{user.first_name}}</h3>
+                </div>
+                <div class="col-1">
+                    <form action="/clear" method='POST'>
+                        {% csrf_token %}
+                        <div class="form-group">
+                            <input type="submit" class="btn btn-primary btn-sm" value='Logout'>
+                        </div>
+                    </form>
+                </div>
+                <div class="col-1">
+                    <form action="/main" method="POST">
+                        {% csrf_token %}
+                        <input type="submit" class="btn btn-primary btn-sm" value='Back'>
+                    </form>
+                </div>
+            </div>
+
+            <div class="subcontainer">
+                <div class="row">
+                        
+                <div class="col-3"></div>
+                    
+                    <form action="/update" method="POST" class="col-6">
+                        {% csrf_token %}
+                        <div class="form-group">
+                            <label for="destination">Destination: {{trip.destination}}</label>
+                            <input type="text" name="destination" id="destination" class="form-control"> 
+                        </div>
+                        <div class="form-group">
+                            <label for="start_date">Start Date: {{trip.start_date}}</label>
+                            <input type="date" name="start_date" id="start_date" class="form-control" placeholder="{{trip.start_date}}"> 
+                        </div>
+                        <div class="form-group">
+                            <label for="end_date">End Date: {{trip.end_date}}</label>
+                            <input type="date" name="end_date" id="end_date" class="form-control" placeholder="{{trip.end_date}}"> 
+                        </div>
+                        <div class="form-group">
+                            <textarea name="plan" cols="30" rows="10" class="form-control" placeholder="{{trip.plan}}"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <input type="submit" class="btn btn-primary btn-sm" value='Update'>
+                            <input type="hidden" name="update" value="{{trip.id}}">
+                        </div>
+                        </form>
+                        <div class="col-3"></div>
+                
+                
+            </div>
+            </div>
+            
+            
+            {% if messages %}
+            <ul class="messages">    
+            {% for message in messages %}    
+                <li {% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>    
+            {% endfor %}
+            </ul>
+            {% endif %}
+
+
+
+        </div>
+
+
+
+
+
+
+
+
+
+      
+</body>
+</html>

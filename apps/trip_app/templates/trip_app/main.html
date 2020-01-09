@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Main Page</title>
+    {% load static %}
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="{% static 'trip_app/style/index2.css' %}">
+</head>
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-8">
+                <h3>Trip Buddy</h3>
+            </div>
+            <div class="col-3">
+                <h3>Welcome {{user.first_name}}</h3>
+            </div>
+            <div class="col-1">
+                <form action="/clear" method='POST'>
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <input type="submit" class="btn btn-primary btn-sm" value='Logout'>
+                    </div>
+                </form>
+            </div>
+        </div>
+        
+        <div class="subcontainer">
+
+            
+            
+            {% if not user.trip_uploaded.all %}
+            <div class="row">
+                <div class="col-3"></div>
+                <div class="col-6">
+                    <h1>You have no trips :(</h1>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-5"></div>
+                <div class="col-2">
+                    <a href="/new" class="btn btn-primary btn-sm">Add Trip</a>
+                </div>
+            </div>
+            
+            {% else %}
+            <table class="table table-bordered">
+                    
+                    <thead>
+                      <tr>
+                        <th>Destination</th>
+                        <th>Start Date</th>
+                        <th>End Date</th>
+                        <th>Plan</th>
+                        <th>Action</th>
+                      </tr>
+                    </thead>
+                    {% for trip in trips %}
+        
+                        {% if trip.uploaded_by.email == request.session.email %}
+                    <tbody>
+                      <tr>
+                        <th><a href="/trip/{{trip.id}}">{{ trip.destination}}</a></th>
+                        <td>{{ trip.start_date }}</td>
+                        <td>{{ trip.end_date }}</td>
+                        <td>{{ trip.plan }}</td>
+                        <td>
+                            <a href="/trip/edit/{{trip.id}}" class="btn btn-primary btn-sm">Edit</a>
+                            <form action="/delete" method="POST">
+                                {% csrf_token %}
+                                <input type="submit" class="btn btn-danger btn-sm" value="Delete">
+                                <input type="hidden" name="delete" value="{{trip.id}}">
+                            </form>
+                        </td>
+                      </tr>
+                    </tbody>
+
+                    
+                    {% endif %}
+                    {% endfor %}
+                  </table>
+                  <div class="row">
+                        <div class="col-10"></div>
+                        <div class="col-2">
+                            <a href="/new" class="btn btn-primary btn-sm">Add Trip</a>
+                        </div>
+                    </div>
+
+                    
+                    
+            
+            {% endif %}
+        </div>
+        
+        
+        
+
+        
+
+        
+
+
+
+
+
+    </div>
+    {% if messages %}
+    <ul class="messages">    
+    {% for message in messages %}    
+        <li {% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>    
+    {% endfor %}
+    </ul>
+{% endif %}
+</body>
+</html>
